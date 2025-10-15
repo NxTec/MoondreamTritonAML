@@ -1,0 +1,28 @@
+# MODE: CAPTION - Image Captioning
+triton_launch_mode: docker
+export_path: ./results_caption
+checkpoint_directory: ./checkpoints_caption
+output_model_repository_path: ./output_caption
+model_repository: ./files/model-repo
+
+profile_models:
+  md:
+    parameters:
+      concurrency: [1, 2, 4, 8]
+    model_config_parameters:
+      max_batch_size: [1, 2, 4, 8]
+      instance_group:
+        - kind: KIND_GPU
+          count: 1
+    perf_analyzer_flags:
+      input-data: ./input_caption.json
+      measurement-interval: 10000
+      measurement-mode: count_windows
+      measurement-request-count: 20
+      stability-percentage: 999
+
+run_config_search_disable: false
+run_config_search_max_instance_count: 1
+run_config_search_max_model_batch_size: 8
+run_config_search_max_concurrency: 8
+

@@ -1,0 +1,16 @@
+triton_launch_mode: docker
+export_path: ./results
+checkpoint_directory: ./checkpoints
+output_model_repository_path: ./output_concurrency_detection
+model_repository: ./files/model-repo
+
+profile_models:
+  md:
+    parameters:
+      concurrency: [1,2,4,8,16,32,64,128]
+    perf_analyzer_flags:
+      input-data: ./input_data_detection.json
+
+
+run_config_search_max_instance_count: 1
+run_config_search_max_model_batch_size: 4

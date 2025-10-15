@@ -1,0 +1,35 @@
+# MODE: DETECT - Object Detection
+triton_launch_mode: docker
+export_path: ./results_detect
+checkpoint_directory: ./checkpoints_detect
+output_model_repository_path: ./output_detect
+model_repository: ./files/model-repo
+triton_http_endpoint: localhost:8010
+triton_grpc_endpoint: localhost:8011
+triton_metrics_url: http://localhost:8012/metrics
+triton_server_flags:
+  http-port: 8010
+  grpc-port: 8011
+  metrics-port: 8012
+
+profile_models:
+  md:
+    parameters:
+      concurrency: [128, 256, 512, 1024]
+    model_config_parameters:
+      max_batch_size: [1, 2, 4, 8,16,32,64,128,256,512,1024]
+      instance_group:
+        - kind: KIND_GPU
+          count: 1
+    perf_analyzer_flags:
+      input-data: ./input_detect.json
+      measurement-interval: 10000
+      measurement-mode: count_windows
+      measurement-request-count: 20
+      stability-percentage: 999
+
+run_config_search_disable: false
+run_config_search_max_instance_count: 1
+run_config_search_max_model_batch_size: 1024
+run_config_search_max_concurrency: 1024
+
