@@ -1,1 +1,0 @@
-az ml online-endpoint create -f endpoint.yml
